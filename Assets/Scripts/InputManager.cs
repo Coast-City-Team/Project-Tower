@@ -39,6 +39,11 @@ public class InputManager : MonoBehaviour
         return playerControls.Player1.Movement.ReadValue<Vector2>();
     }
 
+    public bool PlayerSprinted()
+    {
+        return playerControls.Player1.Sprint.triggered;
+    }
+
     public bool PlayerJumped()
     {
         return playerControls.Player1.Jump.triggered;
