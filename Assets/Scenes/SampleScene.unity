@@ -538,13 +538,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a0f06abc432a07b458c710cb156d7049, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_acceleration: 50
-  m_maxPlayerSpeed: 5
-  m_strafePenalization: 0.4
+  m_isGrounded: 0
+  m_velocity: {x: 0, y: 0, z: 0}
+  m_acceleration: 3
+  m_frictionValue: 0.5
+  m_maxPlayerSpeed: 0.15
   m_sprintingModifier: 1.5
-  m_smoothMovementSpeed: 0.1
   m_jumpForce: 350
-  m_slideDuration: 15
 --- !u!65 &913754627
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -589,10 +589,10 @@ Rigidbody:
   m_ImplicitCom: 1
   m_ImplicitTensor: 1
   m_UseGravity: 1
-  m_IsKinematic: 0
-  m_Interpolate: 0
-  m_Constraints: 80
-  m_CollisionDetection: 1
+  m_IsKinematic: 1
+  m_Interpolate: 1
+  m_Constraints: 0
+  m_CollisionDetection: 2
 --- !u!114 &913754629
 MonoBehaviour:
   m_ObjectHideFlags: 0
