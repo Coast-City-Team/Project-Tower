@@ -539,12 +539,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_isGrounded: 0
-  m_velocity: {x: 0, y: 0, z: 0}
-  m_acceleration: 3
+  m_acceleration: 1
   m_frictionValue: 0.5
-  m_maxPlayerSpeed: 0.15
+  m_maxPlayerSpeed: 6
+  m_maxVelocityY: 5
   m_sprintingModifier: 1.5
-  m_jumpForce: 350
+  m_airMovementPenalization: 0.2
+  m_jumpVelocity: 0.5
 --- !u!65 &913754627
 BoxCollider:
   m_ObjectHideFlags: 0
