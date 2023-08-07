@@ -133,17 +133,19 @@ public class PlayerController : MonoBehaviour
         horizontalDeltaVelocity = m_isGrounded ? horizontalDeltaVelocity : horizontalDeltaVelocity * m_airMovementPenalization;
 
         //Limit horizontal speed
-        Vector2 newHorizontalVelocity = Vector2.ClampMagnitude(horizontalVelocity + horizontalDeltaVelocity, playerMaxVelocity);
+        horizontalVelocity = Vector2.ClampMagnitude(horizontalVelocity + horizontalDeltaVelocity, playerMaxVelocity);
 
         //Limit vertical speed 
         m_velocity.y = Mathf.Clamp(m_velocity.y, m_maxPlayerSpeedDown, 10000);
 
-        m_velocity = new Vector3(newHorizontalVelocity.x, m_velocity.y, newHorizontalVelocity.y);
+        m_velocity = new Vector3(horizontalVelocity.x, m_velocity.y, horizontalVelocity.y);
 
         transform.Translate(m_velocity, Space.World);
+        
+        
+        //Falso piso!
         float targetY = transform.position.y + m_velocity.y;
 
-        //Falso piso!
         if (targetY <= floorY)
         {
             if(targetY < floorY)
@@ -161,7 +163,6 @@ public class PlayerController : MonoBehaviour
     private void applyFriction()
     {
         Vector3 frictionVector = -m_velocity.normalized * m_frictionValue * Time.deltaTime;
-        frictionVector.y = 0;
         m_velocity += frictionVector;
 
         // If velocity has changed of sign, it is set to zero
@@ -188,6 +189,7 @@ public class PlayerController : MonoBehaviour
         m_isSliding = false;
     }
 
+    // PRE CONDITION: m_isGrounded is TRUE
     private void checkJump()
     {
         if (inputManager.playerJumped())
