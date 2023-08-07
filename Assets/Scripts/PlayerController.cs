@@ -59,15 +59,15 @@ public class PlayerController : MonoBehaviour
             // Player is grounded and moving, apply friction
             if (m_velocity.magnitude >= MIN_VELOCITY_THRESHOLD)
             {
-                applyFriction();
+                ApplyFriction();
             }
         } else
         {
             // If player is in the air, apply gravity
-            applyGravity();
+            ApplyGravity();
         }
 
-        movePlayer();
+        MovePlayer();
     }
 
     void Update()
@@ -75,7 +75,7 @@ public class PlayerController : MonoBehaviour
         m_isGrounded = Mathf.Approximately(transform.position.y, floorY);
     }
 
-    private Vector3 getMovementVectorRelativeToCamera()
+    private Vector3 GetMovementVectorRelativeToCamera()
     {
         Vector2 playerMoveDir = inputManager.getPlayerMovement();
 
@@ -93,9 +93,9 @@ public class PlayerController : MonoBehaviour
     }
 
     // Handles xz movement
-    private void movePlayer()
+    private void MovePlayer()
     {
-        Vector3 currentInputVector = getMovementVectorRelativeToCamera();
+        Vector3 currentInputVector = GetMovementVectorRelativeToCamera();
         Vector3 deltaVelocity = m_acceleration * Time.fixedDeltaTime * currentInputVector;
         // TO DO : Add speed penalization when moving to the sides
 
@@ -136,7 +136,7 @@ public class PlayerController : MonoBehaviour
     }
 
     // PRE CONDITION: m_isGrounded is TRUE
-    private void applyFriction()
+    private void ApplyFriction()
     {
         Vector3 frictionVector = -m_velocity.normalized * m_frictionValue * Time.deltaTime;
         m_velocity += frictionVector;
@@ -152,20 +152,20 @@ public class PlayerController : MonoBehaviour
     }
 
     // PRE CONDITION: m_isGrounded is FALSE
-    private void applyGravity()
+    private void ApplyGravity()
     {
         m_velocity.y += Physics.gravity.y * Time.fixedDeltaTime;
     }
 
     // PRE CONDITION: m_isSliding is TRUE
-    private void slidePlayer()
+    private void SlidePlayer()
     {
         // TO DO
         m_isSliding = false;
     }
 
     // PRE CONDITION: m_isGrounded is TRUE
-    private void jumpPlayer()
+    private void JumpPlayer()
     {
         m_velocity.y += m_jumpVelocity * Time.fixedDeltaTime;
     }
@@ -187,7 +187,7 @@ public class PlayerController : MonoBehaviour
     {
         if (m_isGrounded)
         {
-            jumpPlayer();
+            JumpPlayer();
         }
     }
 }
