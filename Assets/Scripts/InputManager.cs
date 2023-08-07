@@ -34,17 +34,17 @@ public class InputManager : MonoBehaviour
         playerControls.Disable();
     }
 
-    public Vector2 GetPlayerMovement()
+    public Vector2 getPlayerMovement()
     {
         return playerControls.Player1.Movement.ReadValue<Vector2>();
     }
 
-    public bool PlayerSprinted()
+    public bool playerSprinted()
     {
         return playerControls.Player1.Sprint.triggered;
     }
 
-    public bool PlayerJumped()
+    public bool playerJumped()
     {
         return playerControls.Player1.Jump.triggered;
     }
