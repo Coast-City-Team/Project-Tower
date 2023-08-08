@@ -34,23 +34,33 @@ public class InputManager : MonoBehaviour
         playerControls.Disable();
     }
 
-    public Vector2 getPlayerMovement()
+    public Vector2 GetPlayerMovement()
     {
         return playerControls.Player1.Movement.ReadValue<Vector2>();
     }
 
-    public bool playerSprinted()
+    public bool PlayerSprinted()
     {
         return playerControls.Player1.Sprint.triggered;
     }
 
-    public bool playerJumped()
+    public bool PlayerJumped()
     {
         return playerControls.Player1.Jump.triggered;
     }
 
-    public Vector2 getPlayerMouseDelta()
+    public Vector2 GetPlayerMouseDelta()
     {
         return playerControls.Player1.Look.ReadValue<Vector2>();
+    }
+
+    public bool PlayerHookButtonPressed()
+    {
+        return playerControls.Player1.Hook.triggered;
+    }
+
+    public bool PlayerHookButtonReleased()
+    {
+        return playerControls.Player1.Hook.WasReleasedThisFrame();
     }
 }

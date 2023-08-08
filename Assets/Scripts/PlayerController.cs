@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class PlayerController : MonoBehaviour
 {
@@ -9,8 +10,8 @@ public class PlayerController : MonoBehaviour
     private Rigidbody rb;
     private Transform cameraTransform;
     private InputManager inputManager;
+    private HookController hookController;
 
-    [SerializeField]
     private bool m_isGrounded = true;
     private bool m_isSprinting = false;
     private bool m_isSliding = false;
@@ -45,6 +46,7 @@ public class PlayerController : MonoBehaviour
         rb = gameObject.GetComponent<Rigidbody>();
         inputManager = InputManager.Instance;
         cameraTransform = Camera.main.transform;
+        hookController = GetComponentInChildren<HookController>();
         Cursor.lockState = CursorLockMode.Locked;
     }
 
@@ -77,7 +79,7 @@ public class PlayerController : MonoBehaviour
 
     private Vector3 GetMovementVectorRelativeToCamera()
     {
-        Vector2 playerMoveDir = inputManager.getPlayerMovement();
+        Vector2 playerMoveDir = inputManager.GetPlayerMovement();
 
         Vector3 cameraForward = cameraTransform.forward;
         Vector3 cameraRight = cameraTransform.right;
@@ -107,16 +109,16 @@ public class PlayerController : MonoBehaviour
         Vector2 xzVelocity = new Vector2(m_velocity.x, m_velocity.z);
         Vector2 xzDeltaVelocity = new Vector2(deltaVelocity.x, deltaVelocity.z);
 
-        // Reduce horizontal delta when player is not grounded
+        // Reduce xz delta when player is not grounded
         xzDeltaVelocity = m_isGrounded ? xzDeltaVelocity : xzDeltaVelocity * m_airMovementPenalization;
 
-        // Limit horizontal speed
+        // Limit xz speed
         xzVelocity = Vector2.ClampMagnitude(xzVelocity + xzDeltaVelocity, playerMaxVelocity);
 
         // Limit vertical speed
         float playerMaxVelocityY = m_maxVelocityY * Time.fixedDeltaTime;
 
-        m_velocity = new Vector3(xzVelocity.x, Mathf.Clamp(m_velocity.y, -playerMaxVelocityY, playerMaxVelocityY), xzVelocity.y);
+        m_velocity = new Vector3(xzVelocity.x, Mathf.Clamp(m_velocity.y, -playerMaxVelocityY, Mathf.Infinity), xzVelocity.y);
         rb.MovePosition(transform.position + m_velocity);
 
         //Falso piso!
@@ -138,7 +140,7 @@ public class PlayerController : MonoBehaviour
     // PRE CONDITION: m_isGrounded is TRUE
     private void ApplyFriction()
     {
-        Vector3 frictionVector = -m_velocity.normalized * m_frictionValue * Time.deltaTime;
+        Vector3 frictionVector = -m_velocity.normalized * m_frictionValue * Time.fixedDeltaTime;
         m_velocity += frictionVector;
 
         if (Mathf.Abs(m_velocity.x) < MIN_VELOCITY_THRESHOLD)
@@ -189,5 +191,10 @@ public class PlayerController : MonoBehaviour
         {
             JumpPlayer();
         }
+    }
+
+    public void OnHook(InputValue inputValue)
+    {
+        hookController.HookButtonAction(inputValue.isPressed);
     }
 }
